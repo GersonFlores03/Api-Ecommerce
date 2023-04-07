@@ -1,0 +1,112 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Ecommerce Api",
+        "description": "Una api que puedes construir un tienda online usando usuarios y productos",
+        "version": "1.0.0"
+    },
+
+    "paths": {
+        "/api/v1/users": {
+
+            "post": {
+                "tags": ["Users"],
+                "description": "Crea un nuevo usuario para el ecommerce",
+                "summary": "Con este endpoint podras crear un nuevo usuario para la aplicacion del ecommerce",
+                "requestBody": {
+                    "description": "Los campos para crear un usuario son: username , email , password",
+                    "required": true,
+                    "content": { 
+                        "application/json": {
+                            "schema": { "$ref": "#/components/schemas/Creacion-Usuarios"}
+                        }
+                    }
+                },
+                "responses": {
+                      "201": {
+                        "description": "created"
+                      },
+                      "409":{
+                        "description": "conflict" ,
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                   "type": "object",
+                                   "properties":{
+                                    "name":{
+                                        "type": "string",
+                                        "example": "Validation Error"
+                                    },
+                                    "message": {
+                                        "type": "string",
+                                        "example": "Database connection error"
+                                    }
+                                   }
+                                }
+                            }
+                        }
+                      }
+                }
+            },
+            "get": {
+                "tags": ["Users"],
+                "description": "Obten a todos los usuarios",
+                "summary": "Con este endpoint puedes tener a todos los usuarios",
+                "parameters": [
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "response": {
+                     "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Creacion-Usuarios"
+                                        }
+                                }
+                            }
+                        }
+                     }
+                }
+
+                
+
+            },
+            "put": {
+                "tags": ["Users"]
+            }
+            
+        }
+    },
+
+    "components": {
+        "schemas":{
+          "Creacion-Usuarios": {
+            "description": "La contraseña tiene que tener al menos 7 caracteres",
+             "type": "object",
+             "properties": {
+                "username": {
+                    "type": "string",
+                    "example": "GersonElmer"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "Gerson03@gmail.com"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "12345678"
+                }
+             }
+          }
+
+        }
+    }
+}
